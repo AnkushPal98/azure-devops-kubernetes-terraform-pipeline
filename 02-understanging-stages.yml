@@ -24,7 +24,7 @@ stages:
     - script: echo DevDeployJob is running
       displayName: 'Run a one-line script'
 - stage: QaDeploy
-  dependsOn: DevDeploy
+  dependsOn: Build
   jobs:
   - job: QaDeployJob
     steps:
