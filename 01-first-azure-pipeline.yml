@@ -14,7 +14,7 @@ pool:
 jobs:
 - job: Job1
   steps:
-  - script: job1 echo Hello, world! changed
+  - script: echo job1 Hello, world! changed
     displayName: 'Run a one-line script'
 
   - script: |
@@ -25,3 +25,9 @@ jobs:
 - job: Job2
   steps:
   - script: echo Job2 is running
+
+- job: Job3
+  dependsOn: job2
+  steps:
+    - script: echo job3 is running 
+
