@@ -17,18 +17,23 @@ stages:
         echo See https://aka.ms/yaml
       displayName: 'Run a multi-line script'
 - stage: DevDeploy
+  dependsOn: Build
   jobs:
   - job: DevDeployJob
     steps:
     - script: echo DevDeployJob is running
       displayName: 'Run a one-line script'
 - stage: QaDeploy
+  dependsOn: DevDeploy
   jobs:
   - job: QaDeployJob
     steps:
     - script: echo QaDeployJob is running
       displayName: 'Run a one-line script'
 - stage: ProdDeploy
+  dependsOn:
+  - DevDeploy
+  - QaDeploy
   jobs:
   - job: ProdDeployJob
     steps:
