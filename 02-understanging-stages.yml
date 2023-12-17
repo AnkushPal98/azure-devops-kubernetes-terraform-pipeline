@@ -10,7 +10,11 @@ stages:
     steps:
     - script: echo Hello, world!
     - bash: echo 'Pipeline Level Variable = $(PipelineLevelVariable)'
-      displayName: 'Run a one-line script'
+    - bash: echo $(Build.ArtifactStagingDirectory)
+    - bash: echo $(Build.BuildId)
+    - bash: echo $(Build.BuildNumber)
+    - bash: echo $(Build.Repository.LocalPath)
+    - bash: echo $(System.DefaultWorkingDirectory)
   - job: SecondJob
     steps:  
     - script: |
@@ -19,7 +23,8 @@ stages:
       displayName: 'Run a multi-line script'
 - stage: DevDeploy
   dependsOn: Build
-  variables: {enviroment: Dev}
+  variables:            #stage level variable
+    environment: Dev
   jobs:
   - job: DevDeployJob
     steps:
@@ -29,7 +34,8 @@ stages:
   dependsOn: Build
   jobs:
   - job: QaDeployJob
-    variables: {environment: Qa}
+    variables:          #job level variable
+      environment: Qa
     steps:
     - script: echo $(environment)DeployJob is running
       displayName: 'Run a one-line script'
