@@ -15,37 +15,50 @@ stages:
     - bash: echo $(Build.BuildNumber)
     - bash: echo $(Build.Repository.LocalPath)
     - bash: echo $(System.DefaultWorkingDirectory)
-  - job: SecondJob
-    steps:  
-    - script: |
-        echo Add other tasks to build, test, and deploy your project.
-        echo See https://aka.ms/yaml
-      displayName: 'Run a multi-line script'
-- stage: DevDeploy
-  dependsOn: Build
-  variables:            #stage level variable
-    environment: Dev
-  jobs:
-  - job: DevDeployJob
-    steps:
-    - script: echo $(environment)DeployJob is running
-      displayName: 'Run a one-line script'
-- stage: QaDeploy
-  dependsOn: Build
-  jobs:
-  - job: QaDeployJob
-    variables:          #job level variable
-      environment: Qa
-    steps:
-    - script: echo $(environment)DeployJob is running
-      displayName: 'Run a one-line script'
-- stage: ProdDeploy
-  dependsOn:
-  - DevDeploy
-  - QaDeploy
-  jobs:
-  - job: ProdDeployJob
-    steps:
-    - script: echo ProdDeployJob is running
-      displayName: 'Run a one-line script'
+    - bash: echo java -version
+    - bash: echo node --version
+    - bash: echo python --version
+    - bash: echo mvn -version
+    - bash: ls -R $(Build.ArtifactStagingDirectory)
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: |
+          **/*.yaml
+          **/*.tf
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - bash: ls -R $(Build.ArtifactStagingDirectory)
+#   - job: SecondJob
+#     steps:  
+#     - script: |
+#         echo Add other tasks to build, test, and deploy your project.
+#         echo See https://aka.ms/yaml
+#       displayName: 'Run a multi-line script'
+# - stage: DevDeploy
+#   dependsOn: Build
+#   variables:            #stage level variable
+#     environment: Dev
+#   jobs:
+#   - job: DevDeployJob
+#     steps:
+#     - script: echo $(environment)DeployJob is running
+#       displayName: 'Run a one-line script'
+# - stage: QaDeploy
+#   dependsOn: Build
+#   jobs:
+#   - job: QaDeployJob
+#     variables:          #job level variable
+#       environment: Qa
+#     steps:
+#     - script: echo $(environment)DeployJob is running
+#       displayName: 'Run a one-line script'
+# - stage: ProdDeploy
+#   dependsOn:
+#   - DevDeploy
+#   - QaDeploy
+#   jobs:
+#   - job: ProdDeployJob
+#     steps:
+#     - script: echo ProdDeployJob is running
+#       displayName: 'Run a one-line script'
 
