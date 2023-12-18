@@ -15,10 +15,10 @@ stages:
     - bash: echo $(Build.BuildNumber)
     - bash: echo $(Build.Repository.LocalPath)
     - bash: echo $(System.DefaultWorkingDirectory)
-    - bash: echo java -version
-    - bash: echo node --version
-    - bash: echo python --version
-    - bash: echo mvn -version
+    - bash: java -version
+    - bash: node --version
+    - bash: python --version
+    - bash: mvn -version
     - bash: ls -R $(Build.ArtifactStagingDirectory)
     - task: CopyFiles@2
       inputs:
@@ -28,6 +28,11 @@ stages:
           **/*.tf
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
     - bash: ls -R $(Build.ArtifactStagingDirectory)
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
 #   - job: SecondJob
 #     steps:  
 #     - script: |
