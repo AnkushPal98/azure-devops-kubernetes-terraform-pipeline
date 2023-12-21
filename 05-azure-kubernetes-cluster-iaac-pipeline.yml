@@ -26,6 +26,7 @@ steps:
     backendAzureRmContainerName: 'storageaccankushcontainer'
     backendAzureRmKey: 'kubernetes-dev.tfstate'
     allowTelemetryCollection: true
+
 - task: TerraformCLI@2
   inputs:
     command: 'apply'
