@@ -1,9 +1,18 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">=3.0.0"
+    }
+  }
+}
+
 provider "azurerm" {
-  version = "~> 1.42"
   client_id       = var.client_id   # ENVIRONMENT VARIABLE
   client_secret   = var.client_secret # ENVIRONMENT VARIABLE
   subscription_id = var.subscription_id
   tenant_id       = var.tenant_id
+  features {}
 }
 
 resource "azurerm_resource_group" "resource_group" {
