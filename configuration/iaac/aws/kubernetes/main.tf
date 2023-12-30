@@ -1,8 +1,8 @@
 # aws --version
-# aws eks --region us-east-1 update-kubeconfig --name in28minutes-cluster
+# aws eks --region us-east-1 update-kubeconfig --name ankush98-cluster
 # Uses default VPC and Subnet. Create Your Own VPC and Private Subnets for Prod Usage.
-# terraform-backend-state-in28minutes-123
-# AKIA4AHVNOD7OOO6T4KI
+# terraform-backend-state-ankush98-123 -> bucket name
+
 
 
 terraform {
@@ -24,17 +24,17 @@ data "aws_subnet_ids" "subnets" {
 
 provider "kubernetes" {
   //>>Uncomment this section once EKS is created - Start
-  # host                   = data.aws_eks_cluster.cluster.endpoint #module.in28minutes-cluster.cluster_endpoint
+  # host                   = data.aws_eks_cluster.cluster.endpoint #module.ankush98-cluster.cluster_endpoint
   # cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
   # token                  = data.aws_eks_cluster_auth.cluster.token
   //>>Uncomment this section once EKS is created - End
 }
 
-module "in28minutes-cluster" {
+module "ankush98-cluster" {
   source          = "terraform-aws-modules/eks/aws"
-  cluster_name    = "in28minutes-cluster"
-  cluster_version = "1.23"
-  subnet_ids         = ["subnet-0ba16627", "subnet-02db6b4a", "subnet-e08479ba"] #CHANGE # Donot choose subnet from us-east-1e
+  cluster_name    = "ankush98-cluster"
+  cluster_version = "1.27"
+  subnet_ids         = ["subnet-0f6dbd21735e5e34b", "subnet-068fffeaaa9bd0d86", "subnet-0bae17684bde8e6ba"] #CHANGE # Donot choose subnet from us-east-1e
   vpc_id          = aws_default_vpc.default.id
 
   //Newly added entry to allow connection to the api server
@@ -60,11 +60,11 @@ module "in28minutes-cluster" {
 
 //>>Uncomment this section once EKS is created - Start
 #  data "aws_eks_cluster" "cluster" {
-#    name = "in28minutes-cluster" #module.in28minutes-cluster.cluster_name
+#    name = "ankush98-cluster" #module.ankush98-cluster.cluster_name
 #  }
 
 # data "aws_eks_cluster_auth" "cluster" {
-#   name = "in28minutes-cluster" #module.in28minutes-cluster.cluster_name
+#   name = "ankush98-cluster" #module.ankush98-cluster.cluster_name
 # }
 
 
