@@ -27,9 +27,9 @@ data "aws_subnets" "subnets" {
 
 provider "kubernetes" {
   //>>Uncomment this section once EKS is created - Start
-  # host                   = data.aws_eks_cluster.cluster.endpoint #module.ankush98-cluster.cluster_endpoint
-  # cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
-  # token                  = data.aws_eks_cluster_auth.cluster.token
+  host                   = data.aws_eks_cluster.cluster.endpoint #module.ankush98-cluster.cluster_endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority[0].data)
+  token                  = data.aws_eks_cluster_auth.cluster.token
   //>>Uncomment this section once EKS is created - End
 }
 
@@ -62,33 +62,33 @@ module "ankush98-cluster" {
 }
 
 //>>Uncomment this section once EKS is created - Start
-#  data "aws_eks_cluster" "cluster" {
-#    name = "ankush98-cluster" #module.ankush98-cluster.cluster_name
-#  }
+ data "aws_eks_cluster" "cluster" {
+   name = "ankush98-cluster" #module.ankush98-cluster.cluster_name
+ }
 
-# data "aws_eks_cluster_auth" "cluster" {
-#   name = "ankush98-cluster" #module.ankush98-cluster.cluster_name
-# }
+data "aws_eks_cluster_auth" "cluster" {
+  name = "ankush98-cluster" #module.ankush98-cluster.cluster_name
+}
 
 
-# # We will use ServiceAccount to connect to K8S Cluster in CI/CD mode
-# # ServiceAccount needs permissions to create deployments 
-# # and services in default namespace
-# resource "kubernetes_cluster_role_binding" "example" {
-#   metadata {
-#     name = "fabric8-rbac"
-#   }
-#   role_ref {
-#     api_group = "rbac.authorization.k8s.io"
-#     kind      = "ClusterRole"
-#     name      = "cluster-admin"
-#   }
-#   subject {
-#     kind      = "ServiceAccount"
-#     name      = "default"
-#     namespace = "default"
-#   }
-# }
+# We will use ServiceAccount to connect to K8S Cluster in CI/CD mode
+# ServiceAccount needs permissions to create deployments 
+# and services in default namespace
+resource "kubernetes_cluster_role_binding" "example" {
+  metadata {
+    name = "fabric8-rbac"
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+  subject {
+    kind      = "ServiceAccount"
+    name      = "default"
+    namespace = "default"
+  }
+}
 //>>Uncomment this section once EKS is created - End
 
 # Needed to set the default region
